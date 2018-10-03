@@ -4,13 +4,15 @@ action="$1" # login / unlock
 email=""
 if [ "$action" = login ]; then
 	email=" john+bitwarden@ankarstrom.se"
-	[ -e /tmp/bw_key ] && rm /tmp/bw_key
-	touch /tmp/bw_key
-	chmod 600 /tmp/bw_key
+	[ -e /tmp/bw-key ] && rm /tmp/bw-key
+	touch /tmp/bw-key
+	chmod 600 /tmp/bw-key
 fi
 
 zenity --title Bitwarden --password \
 	| eval "bw $action --raw$email" \
-	> /tmp/bw_key
+	> /tmp/bw-key
 
-zenity --title Response --info --text "$(cat /tmp/bw_key)"
+grep incorrect /tmp/bw-key && rm /tmp/bw-key
+
+zenity --title Response --info --text "$(cat /tmp/bw-key)"
