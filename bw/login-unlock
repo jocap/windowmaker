@@ -1,0 +1,16 @@
+#!/bin/sh
+
+action="$1" # login / unlock
+email=""
+if [ "$action" = login ]; then
+	email=" john+bitwarden@ankarstrom.se"
+	[ -e /tmp/bw_key ] && rm /tmp/bw_key
+	touch /tmp/bw_key
+	chmod 600 /tmp/bw_key
+fi
+
+zenity --title Bitwarden --password \
+	| eval "bw $action --raw$email" \
+	> /tmp/bw_key
+
+zenity --title Response --info --text "$(cat /tmp/bw_key)"

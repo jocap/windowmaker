@@ -1,0 +1,9 @@
+#!/bin/sh
+
+a="$(zenity --title Account --entry --text 'Enter account:')"
+
+bw get password "$a" --session $(cat /tmp/bw_key) | xsel -ib
+zenity --title Username --info \
+	--text "$(bw get username "$a" --session $(cat /tmp/bw_key))"
+
+# Displays user name and copies password to clipboard.

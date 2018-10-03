@@ -1,0 +1,4 @@
+#!/bin/sh
+
+zenity --title Bitwarden --info --text "$(bw logout)"
+rm /tmp/bw_key
