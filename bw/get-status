@@ -1,0 +1,4 @@
+#!/bin/sh
+status='Logged out'
+[ -e /tmp/bw-key ] && status='Logged in'
+printf "(\n  \"Status\",\n  (\n    \"$status\",\n    EXEC,\n    \"\"\n  )\n)\n"
