@@ -1,0 +1,8 @@
+#!/bin/sh
+
+[ -e /tmp/bw-key ] &&
+printf '("Accounts",\n'
+bw list items --session $(cat /tmp/bw-key) \
+	| jq -r '.[].name' \
+	| xargs -L1 -I '{}' printf '("{}", EXEC, "~/dev/windowmaker/bw/get \\\"{}\\\""),\n' | sed '$s/,$//'
+printf ')\n'
