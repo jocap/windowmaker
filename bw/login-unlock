@@ -13,6 +13,13 @@ zenity --title Bitwarden --password \
 	| eval "bw $action --raw$email" \
 	> /tmp/bw-key
 
-grep incorrect /tmp/bw-key && rm /tmp/bw-key
+if $(grep incorrect /tmp/bw-key); then
+	rm /tmp/bw-key
+else
+	[ -e /tmp/bw-accounts ] && rm /tmp/bw-accounts
+	touch /tmp/bw-accounts
+	chmod 600 /tmp/bw-accounts
+	bw list items --session $(cat /tmp/bw-key) > /tmp/bw-accounts
+fi
 
 zenity --title Response --info --text "$(cat /tmp/bw-key)"
