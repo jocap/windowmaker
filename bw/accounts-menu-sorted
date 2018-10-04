@@ -1,0 +1,16 @@
+#!/bin/sh
+
+[ -e /tmp/bw-accounts ] || return 1
+
+letters=$(sed 's/^\(.\).*/\1/' /tmp/bw-accounts | awk '{print toupper($0)}' | uniq)
+
+echo '(Accounts,'
+echo "$(for letter in $letters; do
+		printf "(\"$letter\",\n"
+		grep -i "^$letter" /tmp/bw-accounts \
+			| xargs -L1 -I '{}' \
+				printf '("{}", EXEC, "~/dev/windowmaker/bw/get \\\"{}\\\""),\n' \
+		    | sed '$s/,$//'
+			printf '),\n'
+	done)" | sed '$s/,$//'
+echo ')'

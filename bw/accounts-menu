@@ -4,6 +4,5 @@
 [ -e /tmp/bw-accounts ] || return 1
 printf '("Accounts",\n'
 cat /tmp/bw-accounts \
-	| jq -r '.[].name' \
 	| xargs -L1 -I '{}' printf '("{}", EXEC, "~/dev/windowmaker/bw/get \\\"{}\\\""),\n' | sed '$s/,$//'
 printf ')\n'

@@ -19,7 +19,8 @@ else
 	[ -e /tmp/bw-accounts ] && rm /tmp/bw-accounts
 	touch /tmp/bw-accounts
 	chmod 600 /tmp/bw-accounts
-	bw list items --session $(cat /tmp/bw-key) > /tmp/bw-accounts
+	bw list items --session $(cat /tmp/bw-key) | jq -r '.[].name' > /tmp/bw-accounts
+	~/dev/windowmaker/bw/accounts-menu-sorted > /tmp/bw-accounts-menu
 fi
 
 zenity --title Response --info --text "$(cat /tmp/bw-key)"

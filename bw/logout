@@ -3,3 +3,4 @@
 zenity --title Bitwarden --info --text "$(bw logout)"
 rm /tmp/bw-key
 rm /tmp/bw-accounts
+rm /tmp/bw-accounts-menu
